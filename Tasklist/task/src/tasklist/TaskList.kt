@@ -27,9 +27,7 @@ object TaskList {
         val inputTasks = readTasks()
 
         if (inputTasks.isEmpty()) println("The task is blank")
-        else {
-            this.tasks.add(Task(priority, date, time, inputTasks))
-        }
+        else this.tasks.add(Task(priority, date, time, inputTasks))
 
     }
 
@@ -48,22 +46,39 @@ object TaskList {
         return if (!isValidDate(date)) {
             println("The input date is invalid")
             readDate()
-        } else {
-            date
-        }
+        } else date
     }
 
-    private fun isValidDate(date: String): Boolean =
-        date.matches(Regex("20([3-9]\\d|2[2-9])-(\\d|1[0-2])-(\\d|[12]\\d|3[01])"))
+    private fun isValidDate(date: String): Boolean {
+        return if (date.matches(Regex("\\d+-\\d+-\\d+"))) {
+            val (year, month, day) = date.split("-")
+            when (month.toInt()) {
+                1, 3, 5, 7, 8, 10, 12 -> day.toInt() in 1..31
+                4, 6, 9, 11 -> day.toInt() in 1..30
+                2 -> {
+                    if (year.toInt() % 4 == 0) day.toInt() in 1..29
+                    else day.toInt() in 1..28
+                }
+                else -> false
+            }
+        } else false
+    }
+
 
     private fun readTime(): String {
         println("Input the time (hh:mm):")
         val time = readln().trim()
-        return if (!time.matches(Regex("\\d?\\d:\\d?\\d"))) {
-            println("The time is invalid")
+        return if (!isValidTime(time)) {
+            println("The input time is invalid")
             readTime()
-        } else
-            time
+        } else time
+    }
+
+    private fun isValidTime(time: String): Boolean {
+        return if (time.matches(Regex("\\d+:\\d+"))) {
+            val (hour, minute) = time.split(":")
+            hour.toInt() in 0..23 && minute.toInt() in 0..59
+        } else false
     }
 
     private fun readTasks(): MutableList<String> {
@@ -75,7 +90,6 @@ object TaskList {
             if (task.isBlank()) break
             inputTasks.add(task)
         }
-
         return inputTasks
     }
 
