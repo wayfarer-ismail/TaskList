@@ -5,7 +5,7 @@ import java.time.LocalDate
 data class Task(var priority: String, var date: String, var time: String, var tasks: MutableList<String>) {
     constructor(tasks: MutableList<String>): this("0", "NA", "NA", tasks)
 
-    private fun dueTag(): String {
+    fun dueTag(): String {
         return when {
             date == "NA" -> ""
             LocalDate.parse(date) == LocalDate.now() -> "T"

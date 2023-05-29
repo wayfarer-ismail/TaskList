@@ -1,6 +1,6 @@
 package tasklist
 
-class TaskList {
+public class TaskList {
     private val tasks: MutableList<Task> = mutableListOf()
 
     fun start() {
