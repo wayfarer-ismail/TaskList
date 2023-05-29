@@ -9,9 +9,9 @@ object TaskList {
             println("Input an action (add, print, edit, delete, end):")
             when (readln().trim().lowercase()) {
                 "add" -> add()
-                "print" -> printTasks()
-                "edit" -> edit()
-                "delete" -> delete()
+                "print" -> View.printTasks(tasks)
+                "edit" -> Modify.edit(tasks)
+                "delete" -> Modify.delete(tasks)
                 "end" -> break
                 else -> println("The input action is invalid")
             }
@@ -33,7 +33,7 @@ object TaskList {
 
     }
 
-    private fun readPriority(): String {
+    fun readPriority(): String {
         var priority: String
         do {
             println("Input the task priority (C, H, N, L):")
@@ -42,7 +42,7 @@ object TaskList {
         return priority
     }
 
-    private fun readDate(): String {
+    fun readDate(): String {
         println("Input the date (yyyy-mm-dd):")
         val date: String = readln().trim()
         return if (!isValidDate(date)) {
@@ -67,7 +67,7 @@ object TaskList {
     }
 
 
-    private fun readTime(): String {
+    fun readTime(): String {
         println("Input the time (hh:mm):")
         val time = readln().trim()
         return if (!isValidTime(time)) {
@@ -83,7 +83,7 @@ object TaskList {
         } else false
     }
 
-    private fun readTasks(): MutableList<String> {
+    fun readTasks(): MutableList<String> {
         println("Input a new task (enter a blank line to end):")
 
         val inputTasks = mutableListOf<String>()
@@ -93,38 +93,5 @@ object TaskList {
             inputTasks.add(task)
         }
         return inputTasks
-    }
-
-    private fun edit() {
-        TODO("Not yet implemented")
-    }
-
-    private fun delete() {
-        if (tasks.isEmpty()) {
-            println("No tasks have been input")
-            return
-        }
-
-        printTasks()
-        println("Input the task number (1-${tasks.size}):")
-        var taskNumber = readln().trim()
-        while (!taskNumber.matches(Regex("\\d+")) && taskNumber.toInt() !in 1..tasks.size) {
-            println("Invalid task number")
-            println("Input the task number (1-${tasks.size}):")
-            taskNumber = readln().trim()
-        }
-
-        tasks.removeAt(taskNumber.toInt() - 1)
-        println("The task is deleted")
-    }
-
-    private fun printTasks() {
-        if (tasks.isEmpty()) {
-            println("No tasks have been input")
-        } else {
-            for (i in tasks.indices) {
-                println(String.format("%-2d %s\n", (i+1), tasks[i]))
-            }
-        }
     }
 }
