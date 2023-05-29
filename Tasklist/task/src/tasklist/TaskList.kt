@@ -1,6 +1,6 @@
 package tasklist
 
-object TaskList {
+class TaskList {
     private val tasks: MutableList<Task> = mutableListOf()
 
     fun start() {
@@ -8,90 +8,14 @@ object TaskList {
         while (true) {
             println("Input an action (add, print, edit, delete, end):")
             when (readln().trim().lowercase()) {
-                "add" -> add()
-                "print" -> View.printTasks(tasks)
-                "edit" -> Modify.edit(tasks)
-                "delete" -> Modify.delete(tasks)
+                "add" -> add(tasks)
+                "print" -> printTasks(tasks)
+                "edit" -> edit(tasks)
+                "delete" -> delete(tasks)
                 "end" -> break
                 else -> println("The input action is invalid")
             }
         }
         println("Tasklist exiting!")
-    }
-
-    private fun add() {
-        val priority = readPriority()
-
-        val date = readDate()
-
-        val time = readTime()
-
-        val inputTasks = readTasks()
-
-        if (inputTasks.isEmpty()) println("The task is blank")
-        else this.tasks.add(Task(priority, date, time, inputTasks))
-
-    }
-
-    fun readPriority(): String {
-        var priority: String
-        do {
-            println("Input the task priority (C, H, N, L):")
-            priority = readln().trim().uppercase()
-        } while (!priority.matches(Regex("[CHNL]")))
-        return priority
-    }
-
-    fun readDate(): String {
-        println("Input the date (yyyy-mm-dd):")
-        val date: String = readln().trim()
-        return if (!isValidDate(date)) {
-            println("The input date is invalid")
-            readDate()
-        } else date
-    }
-
-    private fun isValidDate(date: String): Boolean {
-        return if (date.matches(Regex("\\d+-\\d+-\\d+"))) {
-            val (year, month, day) = date.split("-")
-            when (month.toInt()) {
-                1, 3, 5, 7, 8, 10, 12 -> day.toInt() in 1..31
-                4, 6, 9, 11 -> day.toInt() in 1..30
-                2 -> {
-                    if (year.toInt() % 4 == 0) day.toInt() in 1..29
-                    else day.toInt() in 1..28
-                }
-                else -> false
-            }
-        } else false
-    }
-
-
-    fun readTime(): String {
-        println("Input the time (hh:mm):")
-        val time = readln().trim()
-        return if (!isValidTime(time)) {
-            println("The input time is invalid")
-            readTime()
-        } else time
-    }
-
-    private fun isValidTime(time: String): Boolean {
-        return if (time.matches(Regex("\\d+:\\d+"))) {
-            val (hour, minute) = time.split(":")
-            hour.toInt() in 0..23 && minute.toInt() in 0..59
-        } else false
-    }
-
-    fun readTasks(): MutableList<String> {
-        println("Input a new task (enter a blank line to end):")
-
-        val inputTasks = mutableListOf<String>()
-        while (true) {
-            val task = readln().trim()
-            if (task.isBlank()) break
-            inputTasks.add(task)
-        }
-        return inputTasks
     }
 }

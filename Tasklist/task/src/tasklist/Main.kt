@@ -1,5 +1,6 @@
 package tasklist
 
 fun main() {
-    TaskList.start()
+    val myTaskList = TaskList()
+    myTaskList.start()
 }
