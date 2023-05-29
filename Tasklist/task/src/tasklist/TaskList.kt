@@ -6,10 +6,12 @@ object TaskList {
     fun start() {
 
         while (true) {
-            println("Input an action (add, print, end):")
+            println("Input an action (add, print, edit, delete, end):")
             when (readln().trim().lowercase()) {
                 "add" -> add()
                 "print" -> printTasks()
+                "edit" -> edit()
+                "delete" -> delete()
                 "end" -> break
                 else -> println("The input action is invalid")
             }
@@ -91,6 +93,29 @@ object TaskList {
             inputTasks.add(task)
         }
         return inputTasks
+    }
+
+    private fun edit() {
+        TODO("Not yet implemented")
+    }
+
+    private fun delete() {
+        if (tasks.isEmpty()) {
+            println("No tasks have been input")
+            return
+        }
+
+        printTasks()
+        println("Input the task number (1-${tasks.size}):")
+        var taskNumber = readln().trim()
+        while (!taskNumber.matches(Regex("\\d+")) && taskNumber.toInt() !in 1..tasks.size) {
+            println("Invalid task number")
+            println("Input the task number (1-${tasks.size}):")
+            taskNumber = readln().trim()
+        }
+
+        tasks.removeAt(taskNumber.toInt() - 1)
+        println("The task is deleted")
     }
 
     private fun printTasks() {
