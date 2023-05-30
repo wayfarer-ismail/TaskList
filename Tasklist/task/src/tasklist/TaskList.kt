@@ -1,10 +1,13 @@
 package tasklist
 
-public class TaskList {
+class TaskList {
     private val tasks: MutableList<Task> = mutableListOf()
 
-    fun start() {
+    init {
+        load(tasks)
+    }
 
+    fun start() {
         while (true) {
             println("Input an action (add, print, edit, delete, end):")
             when (readln().trim().lowercase()) {
@@ -17,5 +20,6 @@ public class TaskList {
             }
         }
         println("Tasklist exiting!")
+        save(tasks)
     }
 }
