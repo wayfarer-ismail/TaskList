@@ -26,11 +26,14 @@ private fun formatTask(index: Int, task: Task): String {
 
     val pColor = getColor(priority)
     val tagColor = getColor(task.dueTag())
+    val separator = "|\n" + "|    |            |       |   |   |"
 
     return String.format(
         "| %-2s | %s | %s | %s | %s |%s|",
         index, date, time, " ".color(pColor), " ".color(tagColor),
-        tasks.joinToString(separator =  "|\n" + "|    |            |       |   |   |"){it.padEnd(44, ' ')}
+        tasks.joinToString(separator){
+            it.chunked(44).joinToString(separator) {it.padEnd(44, ' ')}
+        }
     )
 }
 

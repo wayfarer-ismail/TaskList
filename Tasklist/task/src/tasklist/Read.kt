@@ -11,17 +11,14 @@ import java.time.format.DateTimeParseException
 fun readPriority(): String {
     var priority: String
     do {
-        println("Input the task priority (C, H, N, L):")
-        priority = readln().trim().uppercase()
+        priority = "Input the task priority (C, H, N, L):".reply().trim().uppercase()
     } while (!priority.matches(Regex("[CHNL]")))
     return priority
 }
 
 fun readDate(): String {
-    println("Input the date (yyyy-mm-dd):")
-
     return try {
-        val input: String = readln().trim()
+        val input: String = "Input the date (yyyy-mm-dd):".reply().trim()
         val date = LocalDate.parse(input.formatDate())
         date.toString()
     } catch (e: DateTimeParseException) {
@@ -38,9 +35,8 @@ private  fun String.formatDate(): String {
 }
 
 fun readTime(): String {
-    println("Input the time (hh:mm):")
-    val input = readln().trim()
     return try {
+        val input = "Input the time (hh:mm):".reply().trim()
         val time = LocalTime.parse(input.formatTime())
         time.toString()
     } catch (e: DateTimeParseException) {
@@ -69,8 +65,7 @@ fun readTasks(): MutableList<String> {
 }
 
 fun readFieldOption(): String {
-    println("Input a field to edit (priority, date, time, task):")
-    val input = readln().trim().lowercase()
+    val input = "Input a field to edit (priority, date, time, task):".reply().trim().lowercase()
     return if (input.matches(Regex("priority|date|time|task"))) {
         input
     } else {
@@ -89,14 +84,15 @@ fun readTaskNumber(tasks: MutableList<Task>): Int {
     }
 
     printTasks(tasks)
-    println("Input the task number (1-${tasks.size}):")
-    var taskNumber = readln().trim()
+    var taskNumber = "Input the task number (1-${tasks.size}):".reply().trim()
     while (!taskNumber.matches(Regex("\\d+")) || taskNumber.toInt() !in 1..tasks.size) {
         println("Invalid task number")
-        println("Input the task number (1-${tasks.size}):")
-        taskNumber = readln().trim()
+        taskNumber = "Input the task number (1-${tasks.size}):".reply().trim()
     }
     return taskNumber.toInt()
 }
 
-fun String.reply() = println(this).run { readln() }
+/**
+ * returns the reply to a String from the terminal
+ */
+private fun String.reply() = println(this).run { readln() }
