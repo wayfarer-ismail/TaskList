@@ -27,6 +27,7 @@ fun load(listOfTasks: MutableList<Task>) {
  * Save the task list to a json file in the current directory using json format
  */
 fun save (listOfTasks: MutableList<Task>) {
+    if (listOfTasks.isEmpty()) return
     // Convert the list of tasks to a JSON-like representation
     val jsonText = buildString {
         append("[")
