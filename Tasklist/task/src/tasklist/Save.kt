@@ -7,7 +7,7 @@ fun load(listOfTasks: MutableList<Task>) {
     val file = File("tasklist.json")
     if (!file.exists()) return
     val jsonString = file.readText()
-    if (jsonString.isEmpty()) return
+    if (jsonString.isEmpty() || jsonString == "[]") return
 
     // Parse JSON into a mutable list of Task objects
     val jsonArray = jsonString.drop(2).dropLast(2).split("},")
@@ -27,7 +27,6 @@ fun load(listOfTasks: MutableList<Task>) {
  * Save the task list to a json file in the current directory using json format
  */
 fun save (listOfTasks: MutableList<Task>) {
-    if (listOfTasks.isEmpty()) return
     // Convert the list of tasks to a JSON-like representation
     val jsonText = buildString {
         append("[")
